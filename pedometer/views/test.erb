@@ -10,8 +10,8 @@
             <th>Steps</th>
         </tr>
         <tr>
-            <td><%= @device_a.format %></td>
-            <td><%= @analyzer_a.steps %></td>
+            <td><%= @device_1.format %></td>
+            <td><%= @analyzer_1.steps %></td>
         </tr>
     </table>
 
@@ -21,8 +21,8 @@
             <th>Steps</th>
         </tr>
         <tr>
-            <td><%= @device_g.format %></td>
-            <td><%= @analyzer_g.steps %></td>
+            <td><%= @device_2.format %></td>
+            <td><%= @analyzer_2.steps %></td>
         </tr>
     </table>
 
@@ -53,154 +53,154 @@
         $('#dot-product').highcharts({
             title: { text: 'Dot Product Data' },
             series: [{
-                name: 'Accelerometer',
-                data: <%= @parser_a.dot_product_data %>
+                name: 'Method 1',
+                data: <%= @parser_1.dot_product_data %>
             }, {
-                name: 'Gravity',
-                data: <%= @parser_g.dot_product_data %>
+                name: 'Method 2',
+                data: <%= @parser_2.dot_product_data %>
             }]
         });
 
         $('#filtered').highcharts({
             title: { text: 'Filtered Data' },
             series: [{
-                name: 'Accelerometer',
-                data: <%= @parser_a.filtered_data %>
+                name: 'Method 1',
+                data: <%= @parser_1.filtered_data %>
             }, {
-                name: 'Gravity',
-                data: <%= @parser_g.filtered_data %>
+                name: 'Method 2',
+                data: <%= @parser_2.filtered_data %>
             }]
         });
 
         $('#x-acceleration').highcharts({
-            title: { text: 'x Acceleration' },
+            title: { text: 'x Acceleration After Parsing' },
             series: [{
-                name: 'Accelerometer',
-                data: <%= @x_a %>
+                name: 'Method 1',
+                data: <%= @x_1 %>
             }, {
-                name: 'Gravity',
-                data: <%= @x_g %>
+                name: 'Method 2',
+                data: <%= @x_2 %>
             }]
         });
 
         $('#y-acceleration').highcharts({
-            title: { text: 'y Acceleration' },
+            title: { text: 'y Acceleration After Parsing' },
             series: [{
-                name: 'Accelerometer',
-                data: <%= @y_a %>
+                name: 'Method 1',
+                data: <%= @y_1 %>
             }, {
-                name: 'Gravity',
-                data: <%= @y_g %>
+                name: 'Method 2',
+                data: <%= @y_2 %>
             }]
         });
 
         $('#z-acceleration').highcharts({
-            title: { text: 'z Acceleration' },
+            title: { text: 'z Acceleration After Parsing' },
             series: [{
-                name: 'Accelerometer',
-                data: <%= @z_a %>
+                name: 'Method 1',
+                data: <%= @z_1 %>
             }, {
-                name: 'Gravity',
-                data: <%= @z_g %>
+                name: 'Method 2',
+                data: <%= @z_2 %>
             }]
         });
 
         $('#xyz-acceleration').highcharts({
             title: { text: 'User Acceleration Magnitude' },
             series: [{
-                name: 'Accelerometer',
-                data: <%= @xyz_a %>
+                name: 'Method 1',
+                data: <%= @xyz_1 %>
             }, {
-                name: 'Gravity',
-                data: <%= @xyz_g %>
+                name: 'Method 2',
+                data: <%= @xyz_2 %>
             }]
         });
 
         $('#gravity-x-acceleration').highcharts({
             title: { text: 'Gravity x Acceleration' },
             series: [{
-                name: 'Accelerometer',
-                data: <%= @xg_a %>
+                name: 'Method 1',
+                data: <%= @xg_1 %>
             }, {
-                name: 'Gravity',
-                data: <%= @xg_g %>
+                name: 'Method 2',
+                data: <%= @xg_2 %>
             }]
         });
 
         $('#gravity-y-acceleration').highcharts({
             title: { text: 'Gravity y Acceleration' },
             series: [{
-                name: 'Accelerometer',
-                data: <%= @yg_a %>
+                name: 'Method 1',
+                data: <%= @yg_1 %>
             }, {
-                name: 'Gravity',
-                data: <%= @yg_g %>
+                name: 'Method 2',
+                data: <%= @yg_2 %>
             }]
         });
 
         $('#gravity-z-acceleration').highcharts({
             title: { text: 'Gravity z Acceleration' },
             series: [{
-                name: 'Accelerometer',
-                data: <%= @zg_a %>
+                name: 'Method 1',
+                data: <%= @zg_1 %>
             }, {
-                name: 'Gravity',
-                data: <%= @zg_g %>
+                name: 'Method 2',
+                data: <%= @zg_2 %>
             }]
         });
 
         $('#xyzg-acceleration').highcharts({
             title: { text: 'Gravitational Acceleration Magnitude' },
             series: [{
-                name: 'Accelerometer',
-                data: <%= @xyzg_a %>
+                name: 'Method 1',
+                data: <%= @xyzg_1 %>
             }, {
-                name: 'Gravity',
-                data: <%= @xyzg_g %>
+                name: 'Method 2',
+                data: <%= @xyzg_2 %>
             }]
         });
 
         $('#total-x-acceleration').highcharts({
             title: { text: 'Total x Acceleration' },
             series: [{
-                name: 'Accelerometer',
-                data: <%= @x_raw_a %>
+                name: 'Method 1',
+                data: <%= @x_raw_1 %>
             }, {
-                name: 'Gravity',
-                data: <%= @x_plus_xg_g %>
+                name: 'Method 2',
+                data: <%= @x_plus_xg_2 %>
             }]
         });
 
         $('#total-y-acceleration').highcharts({
             title: { text: 'Total y Acceleration' },
             series: [{
-                name: 'Accelerometer',
-                data: <%= @y_raw_a %>
+                name: 'Method 1',
+                data: <%= @y_raw_1 %>
             }, {
-                name: 'Gravity',
-                data: <%= @y_plus_yg_g %>
+                name: 'Method 2',
+                data: <%= @y_plus_yg_2 %>
             }]
         });
 
         $('#total-z-acceleration').highcharts({
             title: { text: 'Total z Acceleration' },
             series: [{
-                name: 'Accelerometer',
-                data: <%= @z_raw_a %>
+                name: 'Method 1',
+                data: <%= @z_raw_1 %>
             }, {
-                name: 'Gravity',
-                data: <%= @z_plus_zg_g %>
+                name: 'Method 2',
+                data: <%= @z_plus_zg_2 %>
             }]
         });
 
         $('#magnitude-total-acceleration').highcharts({
             title: { text: 'Magnitude Total Acceleration' },
             series: [{
-                name: 'Accelerometer',
-                data: <%= @magnitude_total_a %>
+                name: 'Method 1',
+                data: <%= @magnitude_total_1 %>
             }, {
-                name: 'Gravity',
-                data: <%= @magnitude_total_g %>
+                name: 'Method 2',
+                data: <%= @magnitude_total_2 %>
             }]
         });
     });
