@@ -4,6 +4,29 @@ Dir['./models/*.rb', './helpers/*.rb'].each {|file| require file }
 
 include FileUtils::Verbose
 
+get '/test' do
+  begin
+    data_a = File.read('public/test/accelerometer.txt')
+    data_g = File.read('public/test/gravity.txt')
+
+    user_a     = User.new(:gender => 'female', :height => 167)
+    @device_a   = Device.new(:data => data_a, :rate => 100)
+    @parser_a   = Parser.new(@device_a)
+    @analyzer_a = Analyzer.new(@parser_a, user_a)
+    @analyzer_a.measure
+
+    user_g     = User.new(:gender => 'female', :height => 167)
+    @device_g   = Device.new(:data => data_g, :rate => 100)
+    @parser_g   = Parser.new(@device_g)
+    @analyzer_g = Analyzer.new(@parser_g, user_g)
+    @analyzer_g.measure    
+
+    erb :test
+  rescue Exception => e
+    [400, e.message]
+  end  
+end
+
 # TODO: 
 # - Capture exceptions and redirect to /data
 post '/create' do

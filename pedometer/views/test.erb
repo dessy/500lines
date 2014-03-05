@@ -1,0 +1,57 @@
+<script src="/jquery.min.js"></script>
+<script src="/highcharts.js"></script>
+<link href="/styles.css" rel="stylesheet" type="text/css" />
+
+<html>
+    <a class="nav" href='/data'>Back to Data</a>
+    <table class="summary">
+        <tr>
+            <th>Measurement</th>
+            <th>Steps</th>
+        </tr>
+        <tr>
+            <td><%= @device_a.format %></td>
+            <td><%= @analyzer_a.steps %></td>
+        </tr>
+    </table>
+
+    <table class="summary">
+        <tr>
+            <th>Measurement</th>
+            <th>Steps</th>
+        </tr>
+        <tr>
+            <td><%= @device_g.format %></td>
+            <td><%= @analyzer_g.steps %></td>
+        </tr>
+    </table>
+
+    <div id="container-dot-product" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+    <div id="container-filtered" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+</html>
+
+<script>
+  $(function () {
+        $('#container-dot-product').highcharts({
+            title: { text: 'Dot Product Data' },
+            series: [{
+                name: 'Accelerometer',
+                data: <%= @parser_a.dot_product_data %>
+            }, {
+                name: 'Gravity',
+                data: <%= @parser_g.dot_product_data %>
+            }]
+        });
+
+        $('#container-filtered').highcharts({
+            title: { text: 'Filtered Data' },
+            series: [{
+                name: 'Accelerometer',
+                data: <%= @parser_a.filtered_data %>
+            }, {
+                name: 'Gravity',
+                data: <%= @parser_g.filtered_data %>
+            }]
+        });
+    });
+</script>
