@@ -1,5 +1,6 @@
 require 'sinatra'
 require 'sinatra/jbuilder'
+require 'mathn'
 Dir['./models/*.rb', './helpers/*.rb'].each {|file| require file }
 
 include FileUtils::Verbose
@@ -20,6 +21,55 @@ get '/test' do
     @parser_g   = Parser.new(@device_g)
     @analyzer_g = Analyzer.new(@parser_g, user_g)
     @analyzer_g.measure    
+
+    @x_a = @parser_a.parsed_data.collect { |d| d[:x] }
+    @y_a = @parser_a.parsed_data.collect { |d| d[:y] }
+    @z_a = @parser_a.parsed_data.collect { |d| d[:z] }
+
+    @x_g = @parser_g.parsed_data.collect { |d| d[:x] }
+    @y_g = @parser_g.parsed_data.collect { |d| d[:y] }
+    @z_g = @parser_g.parsed_data.collect { |d| d[:z] }
+
+    @xg_a = @parser_a.parsed_data.collect { |d| d[:xg] }
+    @yg_a = @parser_a.parsed_data.collect { |d| d[:yg] }
+    @zg_a = @parser_a.parsed_data.collect { |d| d[:zg] }
+
+    @xg_g = @parser_g.parsed_data.collect { |d| d[:xg] }
+    @yg_g = @parser_g.parsed_data.collect { |d| d[:yg] }
+    @zg_g = @parser_g.parsed_data.collect { |d| d[:zg] }
+
+    @xyz_a = @parser_a.parsed_data.collect { |d| Math.sqrt((d[:x]*d[:x])+(d[:y]*d[:y])+(d[:z]*d[:z])) }
+    @xyz_g = @parser_g.parsed_data.collect { |d| Math.sqrt((d[:x]*d[:x])+(d[:y]*d[:y])+(d[:z]*d[:z])) }
+
+    @xyzg_a = @parser_a.parsed_data.collect { |d| Math.sqrt((d[:xg]*d[:xg])+(d[:yg]*d[:yg])+(d[:zg]*d[:zg])) }
+    @xyzg_g = @parser_g.parsed_data.collect { |d| Math.sqrt((d[:xg]*d[:xg])+(d[:yg]*d[:yg])+(d[:zg]*d[:zg])) }
+
+
+    # Raw total acceleration in each of x, y, z (from accelerometer)
+    @x_raw_a = @device_a.data.split(';').inject([]) {|a, data| a << data.split(',')[0].to_f }
+    @y_raw_a = @device_a.data.split(';').inject([]) {|a, data| a << data.split(',')[1].to_f }
+    @z_raw_a = @device_a.data.split(';').inject([]) {|a, data| a << data.split(',')[2].to_f }
+
+    # Total acceleration in each of x, y, z (calculated by x + xg, y + yg, z + zg from device motion)
+    @x_plus_xg_g = @parser_g.parsed_data.collect { |d| d[:x] + d[:xg] }
+    @y_plus_yg_g = @parser_g.parsed_data.collect { |d| d[:y] + d[:yg] }
+    @z_plus_zg_g = @parser_g.parsed_data.collect { |d| d[:z] + d[:zg] }
+
+    # Magnitude of total acceleration (from accelerometer)
+    @magnitude_total_a = @device_a.data.split(';').inject([]) do |a, data| 
+      x = data.split(',')[0].to_f
+      y = data.split(',')[1].to_f
+      z = data.split(',')[2].to_f
+      a << Math.sqrt((x*x)+(y*y)+(z*z))
+    end
+
+    # Magnitude of total acceleration (calculated by x + xg, y + yg, z + zg from device motion)
+    @magnitude_total_g = @parser_g.parsed_data.collect do |d| 
+      x = d[:x] + d[:xg]
+      y = d[:y] + d[:yg]
+      z = d[:z] + d[:zg]
+      Math.sqrt((x*x)+(y*y)+(z*z))
+    end
 
     erb :test
   rescue Exception => e

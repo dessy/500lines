@@ -26,13 +26,31 @@
         </tr>
     </table>
 
-    <div id="container-dot-product" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-    <div id="container-filtered" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+    <div id="dot-product" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+    <div id="filtered" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+    <div id="x-acceleration" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+    <div id="y-acceleration" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+    <div id="z-acceleration" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+    <div id="xyz-acceleration" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+    <div id="gravity-x-acceleration" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+    <div id="gravity-y-acceleration" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+    <div id="gravity-z-acceleration" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+    <div id="xyzg-acceleration" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+    <div id="total-x-acceleration" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+    <div id="total-y-acceleration" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+    <div id="total-z-acceleration" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+    <div id="magnitude-total-acceleration" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 </html>
 
 <script>
   $(function () {
-        $('#container-dot-product').highcharts({
+        $('#dot-product').highcharts({
             title: { text: 'Dot Product Data' },
             series: [{
                 name: 'Accelerometer',
@@ -43,7 +61,7 @@
             }]
         });
 
-        $('#container-filtered').highcharts({
+        $('#filtered').highcharts({
             title: { text: 'Filtered Data' },
             series: [{
                 name: 'Accelerometer',
@@ -51,6 +69,138 @@
             }, {
                 name: 'Gravity',
                 data: <%= @parser_g.filtered_data %>
+            }]
+        });
+
+        $('#x-acceleration').highcharts({
+            title: { text: 'x Acceleration' },
+            series: [{
+                name: 'Accelerometer',
+                data: <%= @x_a %>
+            }, {
+                name: 'Gravity',
+                data: <%= @x_g %>
+            }]
+        });
+
+        $('#y-acceleration').highcharts({
+            title: { text: 'y Acceleration' },
+            series: [{
+                name: 'Accelerometer',
+                data: <%= @y_a %>
+            }, {
+                name: 'Gravity',
+                data: <%= @y_g %>
+            }]
+        });
+
+        $('#z-acceleration').highcharts({
+            title: { text: 'z Acceleration' },
+            series: [{
+                name: 'Accelerometer',
+                data: <%= @z_a %>
+            }, {
+                name: 'Gravity',
+                data: <%= @z_g %>
+            }]
+        });
+
+        $('#xyz-acceleration').highcharts({
+            title: { text: 'User Acceleration Magnitude' },
+            series: [{
+                name: 'Accelerometer',
+                data: <%= @xyz_a %>
+            }, {
+                name: 'Gravity',
+                data: <%= @xyz_g %>
+            }]
+        });
+
+        $('#gravity-x-acceleration').highcharts({
+            title: { text: 'Gravity x Acceleration' },
+            series: [{
+                name: 'Accelerometer',
+                data: <%= @xg_a %>
+            }, {
+                name: 'Gravity',
+                data: <%= @xg_g %>
+            }]
+        });
+
+        $('#gravity-y-acceleration').highcharts({
+            title: { text: 'Gravity y Acceleration' },
+            series: [{
+                name: 'Accelerometer',
+                data: <%= @yg_a %>
+            }, {
+                name: 'Gravity',
+                data: <%= @yg_g %>
+            }]
+        });
+
+        $('#gravity-z-acceleration').highcharts({
+            title: { text: 'Gravity z Acceleration' },
+            series: [{
+                name: 'Accelerometer',
+                data: <%= @zg_a %>
+            }, {
+                name: 'Gravity',
+                data: <%= @zg_g %>
+            }]
+        });
+
+        $('#xyzg-acceleration').highcharts({
+            title: { text: 'Gravitational Acceleration Magnitude' },
+            series: [{
+                name: 'Accelerometer',
+                data: <%= @xyzg_a %>
+            }, {
+                name: 'Gravity',
+                data: <%= @xyzg_g %>
+            }]
+        });
+
+        $('#total-x-acceleration').highcharts({
+            title: { text: 'Total x Acceleration' },
+            series: [{
+                name: 'Accelerometer',
+                data: <%= @x_raw_a %>
+            }, {
+                name: 'Gravity',
+                data: <%= @x_plus_xg_g %>
+            }]
+        });
+
+        $('#total-y-acceleration').highcharts({
+            title: { text: 'Total y Acceleration' },
+            series: [{
+                name: 'Accelerometer',
+                data: <%= @y_raw_a %>
+            }, {
+                name: 'Gravity',
+                data: <%= @y_plus_yg_g %>
+            }]
+        });
+
+        $('#total-z-acceleration').highcharts({
+            title: { text: 'Total z Acceleration' },
+            series: [{
+                name: 'Accelerometer',
+                data: <%= @z_raw_a %>
+            }, {
+                name: 'Gravity',
+                data: <%= @z_plus_zg_g %>
+            }]
+        });
+
+        $('#magnitude-total-acceleration').highcharts({
+            title: { text: 'Magnitude Total Acceleration' },
+            series: [{
+                name: 'Accelerometer',
+                data: <%= @magnitude_total_a %>
+            }, {
+                name: 'Gravity',
+                data: <%= @magnitude_total_g %>
             }]
         });
     });
