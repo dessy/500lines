@@ -38,7 +38,7 @@
     <div id="gravity-x-acceleration" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
     <div id="gravity-y-acceleration" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
     <div id="gravity-z-acceleration" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-
+    
     <div id="xyzg-acceleration" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 
     <div id="total-x-acceleration" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
@@ -163,7 +163,7 @@
         $('#total-x-acceleration').highcharts({
             title: { text: 'Total x Acceleration' },
             series: [{
-                name: 'Method 1',
+                name: 'Method 1 Raw',
                 data: <%= @x_raw_1 %>
             }, {
                 name: 'Method 2',
@@ -174,7 +174,7 @@
         $('#total-y-acceleration').highcharts({
             title: { text: 'Total y Acceleration' },
             series: [{
-                name: 'Method 1',
+                name: 'Method 1 Raw',
                 data: <%= @y_raw_1 %>
             }, {
                 name: 'Method 2',
@@ -185,7 +185,7 @@
         $('#total-z-acceleration').highcharts({
             title: { text: 'Total z Acceleration' },
             series: [{
-                name: 'Method 1',
+                name: 'Method 1 Raw',
                 data: <%= @z_raw_1 %>
             }, {
                 name: 'Method 2',

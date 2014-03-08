@@ -1,0 +1,70 @@
+<script src="/jquery.min.js"></script>
+<script src="/highcharts.js"></script>
+<link href="/styles.css" rel="stylesheet" type="text/css" />
+
+<html>
+    <a class="nav" href='/data'>Back to Data</a>
+    <table class="summary">
+        <tr>
+            <th>Measurement</th>
+            <th>Steps</th>
+        </tr>
+        <tr>
+            <td><%= @device_1.format %></td>
+            <td><%= @analyzer_1.steps %></td>
+        </tr>
+    </table>
+
+    <table class="summary">
+        <tr>
+            <th>Measurement</th>
+            <th>Steps</th>
+        </tr>
+        <tr>
+            <td><%= @device_2.format %></td>
+            <td><%= @analyzer_2.steps %></td>
+        </tr>
+    </table>
+
+    <div id="x-user" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+    <div id="x-gravity" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+    <div id="x-total" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+</html>
+
+<script>
+  $(function () {
+        $('#x-user').highcharts({
+            title: { text: 'x User Acceleration' },
+            series: [{
+                name: 'Method 1 Accelerometer',
+                data: <%= @x_user_1 %>
+            }, {
+                name: 'Method 2 Device Motion',
+                data: <%= @x_user_2 %>
+            }]
+        });
+
+        $('#x-gravity').highcharts({
+            title: { text: 'x Gravity Acceleration' },
+            series: [{
+                name: 'Method 1 Accelerometer',
+                data: <%= @x_gravity_1 %>
+            }, {
+                name: 'Method 2 Device Motion',
+                data: <%= @x_gravity_2 %>
+            }]
+        });
+
+        $('#x-total').highcharts({
+            title: { text: 'x Total Acceleration' },
+            series: [{
+                name: 'Method 1 Accelerometer',
+                data: <%= @x_total_1 %>
+            }, {
+                name: 'Method 2 Device Motion',
+                data: <%= @x_total_2 %>
+            }]
+        });
+    });
+</script>

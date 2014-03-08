@@ -5,7 +5,7 @@ Dir['./models/*.rb', './helpers/*.rb'].each {|file| require file }
 
 include FileUtils::Verbose
 
-get '/test' do
+get '/test1' do
   begin
     data_1 = File.read('public/test/accelerometer.txt')
     data_2 = File.read('public/test/gravity.txt')
@@ -22,6 +22,7 @@ get '/test' do
     @analyzer_2 = Analyzer.new(@parser_2, user_2)
     @analyzer_2.measure
 
+    # x, y, z user acceleration
     @x_1 = @parser_1.parsed_data.collect { |d| d[:x] }
     @y_1 = @parser_1.parsed_data.collect { |d| d[:y] }
     @z_1 = @parser_1.parsed_data.collect { |d| d[:z] }
@@ -30,6 +31,7 @@ get '/test' do
     @y_2 = @parser_2.parsed_data.collect { |d| d[:y] }
     @z_2 = @parser_2.parsed_data.collect { |d| d[:z] }
 
+    # x, y, z gravity acceleration
     @xg_1 = @parser_1.parsed_data.collect { |d| d[:xg] }
     @yg_1 = @parser_1.parsed_data.collect { |d| d[:yg] }
     @zg_1 = @parser_1.parsed_data.collect { |d| d[:zg] }
@@ -38,12 +40,13 @@ get '/test' do
     @yg_2 = @parser_2.parsed_data.collect { |d| d[:yg] }
     @zg_2 = @parser_2.parsed_data.collect { |d| d[:zg] }
 
+    # magnitude of x, y, z user acceleration
     @xyz_1 = @parser_1.parsed_data.collect { |d| Math.sqrt((d[:x]*d[:x])+(d[:y]*d[:y])+(d[:z]*d[:z])) }
     @xyz_2 = @parser_2.parsed_data.collect { |d| Math.sqrt((d[:x]*d[:x])+(d[:y]*d[:y])+(d[:z]*d[:z])) }
 
+    # magnitude of x, y, z gravity acceleration
     @xyzg_1 = @parser_1.parsed_data.collect { |d| Math.sqrt((d[:xg]*d[:xg])+(d[:yg]*d[:yg])+(d[:zg]*d[:zg])) }
     @xyzg_2 = @parser_2.parsed_data.collect { |d| Math.sqrt((d[:xg]*d[:xg])+(d[:yg]*d[:yg])+(d[:zg]*d[:zg])) }
-
 
     # Raw total acceleration in each of x, y, z (from accelerometer)
     @x_raw_1 = @device_1.data.split(';').inject([]) {|a, data| a << data.split(',')[0].to_f }
@@ -71,7 +74,43 @@ get '/test' do
       Math.sqrt((x*x)+(y*y)+(z*z))
     end
 
-    erb :test
+    erb :test1
+  rescue Exception => e
+    [400, e.message]
+  end  
+end
+
+# Testing only the x direction
+get '/test2' do
+  begin
+    data_1 = File.read('public/test/accelerometer.txt')
+    data_2 = File.read('public/test/gravity.txt')
+
+    user_1      = User.new(:gender => 'female', :height => 167)
+    @device_1   = Device.new(:data => data_1, :rate => 100)
+    @parser_1   = Parser.new(@device_1)
+    @analyzer_1 = Analyzer.new(@parser_1, user_1)
+    @analyzer_1.measure
+
+    user_2      = User.new(:gender => 'female', :height => 167)
+    @device_2   = Device.new(:data => data_2, :rate => 100)
+    @parser_2   = Parser.new(@device_2)
+    @analyzer_2 = Analyzer.new(@parser_2, user_2)
+    @analyzer_2.measure
+
+    # x user acceleration
+    @x_user_1 = @parser_1.parsed_data.collect { |d| d[:x] }
+    @x_user_2 = @parser_2.parsed_data.collect { |d| d[:x] }
+
+    # x gravity acceleration
+    @x_gravity_1 = @parser_1.parsed_data.collect { |d| d[:xg] }
+    @x_gravity_2 = @parser_2.parsed_data.collect { |d| d[:xg] }
+
+    # x total acceleration
+    @x_total_1 = @parser_1.parsed_data.collect { |d| d[:x] + d[:xg] }
+    @x_total_2 = @parser_2.parsed_data.collect { |d| d[:x] + d[:xg] }
+
+    erb :test2
   rescue Exception => e
     [400, e.message]
   end  
