@@ -5,11 +5,67 @@ Dir['./models/*.rb', './helpers/*.rb'].each {|file| require file }
 
 include FileUtils::Verbose
 
-get '/test1' do
+get '/test1-walk' do
   begin
-    data_1 = File.read('public/test/accelerometer.txt')
-    data_2 = File.read('public/test/gravity.txt')
+    calculate_all_directions(File.read('public/test/accelerometer.txt'), File.read('public/test/gravity.txt'))
 
+    erb :test1
+  rescue Exception => e
+    [400, e.message]
+  end  
+end
+
+get '/test2-walk' do
+  begin
+    calculate_x_direction(File.read('public/test/accelerometer.txt'), File.read('public/test/gravity.txt'))
+
+    erb :test2
+  rescue Exception => e
+    [400, e.message]
+  end  
+end
+
+get '/test1-5' do
+  begin
+    calculate_all_directions(File.read('public/test/experiments_5_1.txt'), File.read('public/test/experiments_5_2.txt'))
+
+    erb :test1
+  rescue Exception => e
+    [400, e.message]
+  end  
+end
+
+get '/test2-5' do
+  begin
+    calculate_x_direction(File.read('public/test/experiments_5_1.txt'), File.read('public/test/experiments_5_2.txt'))
+
+    erb :test2
+  rescue Exception => e
+    [400, e.message]
+  end  
+end
+
+get '/test1-100' do
+  begin
+    calculate_all_directions(File.read('public/test/experiments_100_1.txt'), File.read('public/test/experiments_100_2.txt'))
+
+    erb :test1
+  rescue Exception => e
+    [400, e.message]
+  end  
+end
+
+get '/test2-100' do
+  begin
+    calculate_x_direction(File.read('public/test/experiments_100_1.txt'), File.read('public/test/experiments_100_2.txt'))
+
+    erb :test2
+  rescue Exception => e
+    [400, e.message]
+  end  
+end
+
+def calculate_all_directions(data_1, data_2)
     user_1      = User.new(:gender => 'female', :height => 167)
     @device_1   = Device.new(:data => data_1, :rate => 100)
     @parser_1   = Parser.new(@device_1)
@@ -73,51 +129,36 @@ get '/test1' do
       z = d[:z] + d[:zg]
       Math.sqrt((x*x)+(y*y)+(z*z))
     end
-
-    erb :test1
-  rescue Exception => e
-    [400, e.message]
-  end  
 end
 
-# Testing only the x direction
-get '/test2' do
-  begin
-    data_1 = File.read('public/test/accelerometer.txt')
-    data_2 = File.read('public/test/gravity.txt')
+def calculate_x_direction(data_1, data_2)
+  user_1      = User.new(:gender => 'female', :height => 167)
+  @device_1   = Device.new(:data => data_1, :rate => 100)
+  @parser_1   = Parser.new(@device_1)
+  @analyzer_1 = Analyzer.new(@parser_1, user_1)
+  @analyzer_1.measure
 
-    user_1      = User.new(:gender => 'female', :height => 167)
-    @device_1   = Device.new(:data => data_1, :rate => 100)
-    @parser_1   = Parser.new(@device_1)
-    @analyzer_1 = Analyzer.new(@parser_1, user_1)
-    @analyzer_1.measure
+  user_2      = User.new(:gender => 'female', :height => 167)
+  @device_2   = Device.new(:data => data_2, :rate => 100)
+  @parser_2   = Parser.new(@device_2)
+  @analyzer_2 = Analyzer.new(@parser_2, user_2)
+  @analyzer_2.measure
 
-    user_2      = User.new(:gender => 'female', :height => 167)
-    @device_2   = Device.new(:data => data_2, :rate => 100)
-    @parser_2   = Parser.new(@device_2)
-    @analyzer_2 = Analyzer.new(@parser_2, user_2)
-    @analyzer_2.measure
+  # x user acceleration
+  @x_user_1 = @parser_1.parsed_data.collect { |d| d[:x] }
+  @x_user_2 = @parser_2.parsed_data.collect { |d| d[:x] }
 
-    # x user acceleration
-    @x_user_1 = @parser_1.parsed_data.collect { |d| d[:x] }
-    @x_user_2 = @parser_2.parsed_data.collect { |d| d[:x] }
+  # x gravity acceleration
+  @x_gravity_1 = @parser_1.parsed_data.collect { |d| d[:xg] }
+  @x_gravity_2 = @parser_2.parsed_data.collect { |d| d[:xg] }
 
-    # x gravity acceleration
-    @x_gravity_1 = @parser_1.parsed_data.collect { |d| d[:xg] }
-    @x_gravity_2 = @parser_2.parsed_data.collect { |d| d[:xg] }
+  # x total acceleration
+  @x_total_1 = @parser_1.parsed_data.collect { |d| d[:x] + d[:xg] }
+  @x_total_2 = @parser_2.parsed_data.collect { |d| d[:x] + d[:xg] }
 
-    # x total acceleration
-    @x_total_1 = @parser_1.parsed_data.collect { |d| d[:x] + d[:xg] }
-    @x_total_2 = @parser_2.parsed_data.collect { |d| d[:x] + d[:xg] }
-
-    # x dot product
-    @x_dot_1 = @parser_1.parsed_data.collect { |d| d[:x]*d[:xg] }
-    @x_dot_2 = @parser_2.parsed_data.collect { |d| d[:x]*d[:xg] }
-
-    erb :test2
-  rescue Exception => e
-    [400, e.message]
-  end  
+  # x dot product
+  @x_dot_1 = @parser_1.parsed_data.collect { |d| d[:x]*d[:xg] }
+  @x_dot_2 = @parser_2.parsed_data.collect { |d| d[:x]*d[:xg] }
 end
 
 # TODO: 
