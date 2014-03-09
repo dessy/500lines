@@ -29,6 +29,7 @@
     <div id="x-user" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
     <div id="x-gravity" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
     <div id="x-total" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+    <div id="x-dot" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 
 </html>
 
@@ -64,6 +65,17 @@
             }, {
                 name: 'Method 2 Device Motion',
                 data: <%= @x_total_2 %>
+            }]
+        });
+
+        $('#x-dot').highcharts({
+            title: { text: 'x Dot Product' },
+            series: [{
+                name: 'Method 1 Accelerometer',
+                data: <%= @x_dot_1 %>
+            }, {
+                name: 'Method 2 Device Motion',
+                data: <%= @x_dot_2 %>
             }]
         });
     });

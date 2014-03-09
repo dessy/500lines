@@ -110,6 +110,10 @@ get '/test2' do
     @x_total_1 = @parser_1.parsed_data.collect { |d| d[:x] + d[:xg] }
     @x_total_2 = @parser_2.parsed_data.collect { |d| d[:x] + d[:xg] }
 
+    # x dot product
+    @x_dot_1 = @parser_1.parsed_data.collect { |d| d[:x]*d[:xg] }
+    @x_dot_2 = @parser_2.parsed_data.collect { |d| d[:x]*d[:xg] }
+
     erb :test2
   rescue Exception => e
     [400, e.message]
