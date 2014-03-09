@@ -7,8 +7,11 @@ include FileUtils::Verbose
 
 get '/test1-walk' do
   begin
-    calculate_all_directions(File.read('public/test/accelerometer.txt'), File.read('public/test/gravity.txt'))
-
+    # calculate_all_directions(File.read('public/test/accelerometer.txt'), File.read('public/test/gravity.txt'))
+    # calculate_all_directions(File.read('public/test/walkpocket_100_1.txt'), File.read('public/test/walkpocket_100_2.txt'))
+    # calculate_all_directions(File.read('public/test/bagwalk_100_1.txt'), File.read('public/test/bagwalk_100_2.txt'))
+    calculate_all_directions(File.read('public/test/bagwalk_300_1.txt'), File.read('public/test/bagwalk_300_2.txt'))
+    
     erb :test1
   rescue Exception => e
     [400, e.message]
@@ -17,7 +20,10 @@ end
 
 get '/test2-walk' do
   begin
-    calculate_x_direction(File.read('public/test/accelerometer.txt'), File.read('public/test/gravity.txt'))
+    # calculate_x_direction(File.read('public/test/accelerometer.txt'), File.read('public/test/gravity.txt'))
+    # calculate_x_direction(File.read('public/test/walkpocket_100_1.txt'), File.read('public/test/walkpocket_100_2.txt'))
+    # calculate_x_direction(File.read('public/test/bagwalk_100_1.txt'), File.read('public/test/bagwalk_100_2.txt'))
+    calculate_x_direction(File.read('public/test/bagwalk_300_1.txt'), File.read('public/test/bagwalk_300_2.txt'))
 
     erb :test2
   rescue Exception => e
